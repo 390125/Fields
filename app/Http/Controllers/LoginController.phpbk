@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class LoginController extends Controller
+{
+    //
+    public function index()
+  {
+      
+      // 配列の初期化
+      $data = array();
+
+      // データ格納
+      $data['name'] = 'Yakata';
+      $data['message'] = 'Hello';
+
+      // 現在日時
+      $today = date('yyyy/mm/dd');
+
+      // loginビューに$dataを'data'にいれる。
+      return view('login', ['data' => $data, 'today' => $today]);
+  }
+}
