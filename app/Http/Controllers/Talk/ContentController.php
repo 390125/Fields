@@ -111,12 +111,7 @@ class ContentController extends Controller
                 ->orderBy('updated_at')
                 ->get();
 
-            //$room = Room::find($id);
             $room = Room::latlong()->find( $id, array(DB::raw('room_id, room_name, AsText(location) AS location')));
-
-
-
-            //$distance = $this->getDistanceFromTwoLocate();
 
             return view('talks.content', ['contents' => $contents, 'room' => $room]);
         } else {

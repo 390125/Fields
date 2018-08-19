@@ -10,6 +10,7 @@ use App\Models\Content;
 use Carbon\Carbon;
 use App\Models\Room;
 use App\Models\RoomsManeger;
+use App\Facades\Distance;
 
 class RoomController extends Controller
 {
@@ -25,7 +26,6 @@ class RoomController extends Controller
      */
     public function __construct()
     {
-        // �����Ń��O�C���F�ؒ��̐l�̂ݓ������悤�ɂ��Ă����B
         $this->middleware('auth');
     }
 
@@ -69,10 +69,13 @@ class RoomController extends Controller
         $user = Auth::user();
 
         // バリデーションチェック
-        // ルー名、詳細は必須
+        // ルーム名、詳細は必須
         $validatedData = $request->validate([
             'room_name' => 'required',
-            'room_description' => 'required'
+            'room_description' => 'required',
+            'lat' => 'required',
+            'lng' => 'required',
+            'room_distance' => 'required'
         ]);
 
         $room = Room::firstOrCreate(
@@ -82,7 +85,8 @@ class RoomController extends Controller
                 'room_description' => $request->room_description,
                 'created_at' => Carbon::now(),
                 'updated_at'  => Carbon::now(),
-                'location' => DB::raw("(GeomFromText('POINT($request->lat $request->lng)'))")
+                'location' => DB::raw("(GeomFromText('POINT($request->lat $request->lng)'))"),
+                'room_distance' => $request->room_distance
             ]
         );
 
@@ -93,57 +97,74 @@ class RoomController extends Controller
             'updated_at'  => Carbon::now()]
         );
 
-        // $room = Room::find($id);
-        // $room->location = ['lat' => $request->lat,'lng' => $request->lng];
-
         $rooms = Room::orderBy('created_at')->get();
 
         return redirect('rooms');
-
     }
 
     /**
      *
-     * Find rooms
-     * 近くのルームを表示一覧
+     * Find
+     * ルーム検索用画面表示
      *
      */
      public function find()
      {
-         $user = Auth::user();
+         // 返却用ルーム初期化
+         $rooms = array();
 
-         // 自分参加していないルームのみ表示
-         $rooms = DB::table('rooms')->select('rooms.*', 'rooms_manegers.user_id')
-         ->orderBy('created_at', 'desc')
-         ->leftJoin('rooms_manegers', 'rooms.room_id', '=', 'rooms_manegers.room_id')
-         ->get();
-
-         $deleteRooms =array();
-         $findrooms = array();
-
-         foreach ($rooms as $key => $room) {
-             // ログイン中のIDが含まれるレコードを削除し、そのルームIDを取得
-             if ($room->user_id == $user->user_id) {
-                 array_push($deleteRooms, $room->room_id);
-                 //unset($rooms[$key]);
-             }
-             // // 該当ルームIDが含まれる場合は削除
-             // if (in_array($room->room_id, $deleteRooms)) {
-             //     unset($rooms[$key]);
-             // }
-         }
-
-         foreach ($rooms as $key => $room) {
-             if ($room->user_id != $user->user_id &&
-                !(in_array($room->room_id, $deleteRooms)) &&
-                !(in_array($room, $findrooms))) {
-                 array_push($findrooms, $room);
-             }
-             //array_push($findrooms, $room);
-         }
-
-         return view('talks.findroom', ['rooms' => $findrooms]);
+         return view('talks.findroom', ['rooms' => $rooms]);
      }
+
+     /**
+      *
+      * Find rooms
+      * 近くのルーム検索->表示
+      *
+      */
+      public function findRoom(Request $request)
+      {
+          $user = Auth::user();
+
+          // 自分参加していないルームのみ表示
+          $rooms = DB::table('rooms')->select('rooms.*', 'rooms_manegers.user_id')
+          ->orderBy('created_at', 'desc')
+          ->leftJoin('rooms_manegers', 'rooms.room_id', '=', 'rooms_manegers.room_id')
+          ->get();
+
+          $deleteRooms = array();
+          $findrooms = array();
+          $aroudrooms = array();
+
+          // ログイン中のuserIdが含まれるレコードを取得し、削除用リストに詰める
+          foreach ($rooms as $key => $room) {
+              if ($room->user_id == $user->user_id) {
+                  array_push($deleteRooms, $room->room_id);
+              }
+          }
+
+          // 削除対象に含まれず、リスト内に重複しない場合findRoomに詰める
+          foreach ($rooms as $key => $room) {
+              if ($room->user_id != $user->user_id &&
+                 !(in_array($room->room_id, $deleteRooms)) &&
+                 !(in_array($room, $findrooms))) {
+                  array_push($findrooms, $room);
+              }
+          }
+          $lat1 = $request->lat;
+          $lng1 = $request->lng;
+
+          foreach ($findrooms as $key => $room) {
+              $roomWithLatLong = Room::latlong()->find( $room->room_id, array(DB::raw('room_id, room_name, AsText(location) AS location')));
+              $lat2 = $roomWithLatLong->lat;
+              $lng2 = $roomWithLatLong->lng;
+              $distance = Distance::distance($lat1, $lng1, $lat2, $lng2);
+              if ($distance < 100000 ) {
+                  array_push($aroudrooms, $room);
+              }
+          }
+         return view('talks.findroom', ['rooms' => $aroudrooms]);
+      }
 
     /**
      *
@@ -168,8 +189,6 @@ class RoomController extends Controller
              ->orderBy('updated_at')
              ->get();
 
-         //return view('talks.content', ['contents' => $contents, 'room_id' => $id]);
-         //eturn redirect()->route('profile', ['id' => 1]);
          return redirect()->action(
              'Talk\ContentController@show', ['id' => $id]
          );

@@ -1,6 +1,7 @@
 //import ExampleComponent from './components/ExampleComponent.vue';
 import ExampleComponent from './components/ExampleComponent.vue';
 import ModalTemplate from './components/ModalTemplate.vue';
+import Test from './components/test.vue';
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -24,6 +25,6 @@ const app = new Vue({
     },
     components: {
         'example-component': ExampleComponent,
-        'modal-template' : ModalTemplate
+        'test' : Test
     }
 });

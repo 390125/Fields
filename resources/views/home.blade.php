@@ -6,13 +6,21 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Dashboard</div>
+                @guest
+                    <div class="card-body">
 
-                <div class="card-body">
+                        You are not login......
 
-                    You are logged in!
+                        <a href="/login">login</a>
+                    </div>
+                @else
+                    <div class="card-body">
 
-                    <a href="/rooms">rooms</a>
-                </div>
+                        You are login in!
+
+                        <a href="/rooms">rooms</a>
+                    </div>
+                @endguest
             </div>
         </div>
     </div>

@@ -6,6 +6,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">ROOOOOMS</div>
+                <div id="location"></div>
                 <div class="card-body">
                     <div class="content_area" id="room" style="overflow: scroll;">
                         <ul style="list-style: none;">

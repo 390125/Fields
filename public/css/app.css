@@ -10469,6 +10469,11 @@ body {
   background-color: #dfe0e0;
 }
 
+#header_icon {
+  height: 40px;
+  width: 40px;
+}
+
 #app-title {
   text-align: center;
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);

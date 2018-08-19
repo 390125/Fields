@@ -13,6 +13,7 @@ $(document).ready(
                     var lat = data.latitude ;
                     var lng = data.longitude ;
 
+                    // hidden値に緯度・経度を設定
                     document.getElementById("lat").value = lat;
                     document.getElementById("lng").value = lng;
                 } ,
@@ -35,13 +36,10 @@ $(document).ready(
 
                     // エラー番号
                     var errorNo = error.code ;
-
                     // エラーメッセージ
                     var errorMessage = "[エラー番号: " + errorNo + "]\n" + errorInfo[ errorNo ] ;
-
                     // アラート表示
                     alert( errorMessage ) ;
-
                 } ,
                 // [第3引数] オプション
                 {
@@ -55,66 +53,4 @@ $(document).ready(
             alert( "あなたの端末では、現在位置を取得できません。" ) ;
         }
     }
-    // document.getElementById("findRoom").onclick = function(e){
-    //
-    //     if( navigator.geolocation ){
-    //         // 現在位置を取得する
-    //         navigator.geolocation.getCurrentPosition(
-    //             // [第1引数] 取得に成功した場合の関数
-    //             function( position )
-    //             {
-    //                 // 取得したデータの整理
-    //                 var data = position.coords ;
-    //
-    //                 // データの整理
-    //                 var lat = data.latitude ;
-    //                 var lng = data.longitude ;
-    //
-    //                 e.preventDefault();
-    //                 $.ajaxSetup({
-    //                    headers: {
-    //                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //                    }
-    //                 });
-    //                 $.ajax({
-    //                    url: '/find',
-    //                    method: 'post',
-    //                    data: {
-    //                        lat: lat,
-    //                        lng: lng
-    //
-    //                    },
-    //                    success: function(response){
-    //                       console.log(response);
-    //                    }});
-    //             }
-    //         )
-    //     }else{
-    //         // 現在位置を取得できない場合の処理
-    //         alert( "あなたの端末では、現在位置を取得できません。" ) ;
-    //     }
-    //
-    // }
 );
-
-
-// googleMap表示ロジック APIキーが必要みたい
-var map;
-var marker;
-var lat = document.getElementById("lat").value;
-var lng = document.getElementById("lng").value;
-var center = {
-  lat: 35.6040704, // 緯度
-  lng: 139.7219328 // 経度
-};
-
-function initMap() {
-    map = new google.maps.Map(document.getElementById('googleMap'), { // #sampleに地図を埋め込む
-        center: center, // 地図の中心を指定
-        zoom: 19 // 地図のズームを指定
-    });
-    marker = new google.maps.Marker({ // マーカーの追加
-        position: center, // マーカーを立てる位置を指定
-        map: map // マーカーを立てる地図を指定
-    });
-}

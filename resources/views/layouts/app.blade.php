@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -14,8 +13,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/content.js') }}" defer></script>
-    <script src="https://maps.googleapis.com/maps/api/js?callback=initMap"></script>
-
+    <script src="{{ asset('js/firstScript.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -35,18 +33,13 @@
         <div class="navbar navbar-light main-header">
             <div class="container">
                 <!-- <a class="navbar-brand" href="{{ url('/home') }}"> -->
-                <a id="app-title" href="{{ url('/rooms') }}">
+                <a id="app-title" href="{{ url('/') }}">
                     Fields
                     <!-- {{ config('app.name', 'Home') }} -->
                 </a>
-
-                <!--
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                -->
-
+                @auth
+                    <img id="header_icon" src="{{asset(Auth::user()->icon_path)}}"></img>
+                @endauth
                 <div class="ml-auto" id="navbar">
                     <input id="nav-input" type="checkbox" class="unshown">
                     <label id="nav-icon" for="nav-input"><span></span></label>
@@ -61,6 +54,7 @@
                                 <li><a class="nav-link" href="{{ route('rooms.index') }}">{{ __('Show Your Room') }}</a></li>
                                 <li><a class="nav-link" href="{{ route('find') }}">{{ __('Find Room') }}</a></li>
                                 <li><a class="nav-link" href="{{ route('rooms.create') }}">{{ __('Create Room') }}</a></li>
+                                <li><a class="nav-link" href="{{ route('setUser', ['id' => Auth::user()->user_id] ) }}">{{ __('Setting') }}</a></li>
                                 <li><a class="nav-link" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">
@@ -89,11 +83,6 @@
             @endif
             @yield('content')
         </main>
-        <div id="example">
-            <example-component></example-component>
-        </div>
-
     </div>
-    <script src=" {{ mix('js/app.js') }} "></script>
 </body>
 </html>

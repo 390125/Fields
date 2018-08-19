@@ -7,8 +7,7 @@
             <div class="card">
                 <p id='lat'>{{$room->lat}},{{$room->lng}}</p>
                 <div class="card-header">{{$room->room_name}}</div>
-
-
+                <div id="location"></div>
                 <div class="card-body">
                     <div class="content_area" id="room" style="overflow: scroll;">
                         <ul style="list-style: none;">
@@ -18,16 +17,12 @@
                             @endforeach
                         </ul>
                     </div>
-
-
-
-
-                        <form method="POST" action="{{ route('contents.store') }}">
-                            {{ csrf_field() }}
-                            <input type="text" class="form-control" name="content" required>
-                            <input type="hidden" class="form-control" name="room_id" value="{{$room->room_id}}">
-                            <button class="btn btn-primary btn-block submit_btn" type="submit" onclick="this.disabled=true;this.form.submit();">Submit</button>
-                        </form>
+                    <form method="POST" action="{{ route('contents.store') }}">
+                        {{ csrf_field() }}
+                        <input type="text" class="form-control" name="content" required>
+                        <input type="hidden" class="form-control" name="room_id" value="{{$room->room_id}}">
+                        <button class="btn btn-primary btn-block submit_btn" type="submit" onclick="this.disabled=true;this.form.submit();">Submit</button>
+                    </form>
                 </div>
             </div>
         </div>
