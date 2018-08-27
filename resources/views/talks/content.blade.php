@@ -13,7 +13,8 @@
                         <ul style="list-style: none;">
                             </li>
                             @foreach($contents as $content)
-                                <li>{{$content->user_name}}:{{$content->content}}</li>
+
+                                <li><span class="user_icon" style="background-image: url('{{asset('storage/'.$content->icon_path)}}')"></span> {{$content->user_name}}:{{$content->content}}</li>
                             @endforeach
                         </ul>
                     </div>

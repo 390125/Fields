@@ -66,15 +66,9 @@ class ContentController extends Controller
     {
         $user = Auth::user();
 
-        /*$this->validate($request, [
-            'content' => 'required',
-        ]);*/
-
-
         $validatedData = $request->validate([
             'content' => 'required'
         ]);
-
 
         $content = new Content;
         $content->user_id = $user->user_id;
@@ -106,7 +100,7 @@ class ContentController extends Controller
             // 取得処理
             $contents = DB::table('contents')
                 ->join('users', 'contents.user_id', '=', 'users.user_id')
-                ->select('contents.*', 'users.user_name')
+                ->select('contents.*', 'users.user_name', 'users.icon_path')
                 ->where('room_id', $id)
                 ->orderBy('updated_at')
                 ->get();
