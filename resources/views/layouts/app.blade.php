@@ -38,7 +38,7 @@
                     <!-- {{ config('app.name', 'Home') }} -->
                 </a>
                 @auth
-                    <img id="header_icon" src="{{asset(Auth::user()->icon_path)}}"></img>
+                    <img id="header_icon" src="{{asset('storage/'.Auth::user()->icon_path)}}"></img>
                 @endauth
                 <div class="ml-auto" id="navbar">
                     <input id="nav-input" type="checkbox" class="unshown">
