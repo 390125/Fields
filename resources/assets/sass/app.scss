@@ -13,22 +13,6 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
-    .content_area {
-  background-color: #fff;
-  overflow-y: scroll;
-  width: 600px;
-  height: 5000px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-  border: 1px solid #ccc;
-  border-radius: 4px;
-    }
-
-    #room {
-        overflow-y: scroll;
-        width: 600px;
-        height: 500px;
-    }
-
 /* ここからFor Fields */
     /* 基本パーツ設定 */
     // リンク設定
@@ -51,6 +35,11 @@
     html, body {
         background-color: #999999;
         font-family: 游ゴシック体, 'Yu Gothic', YuGothic, 'ヒラギノ角ゴシック Pro', 'Hiragino Kaku Gothic Pro', メイリオ, Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+        height: 100%;
+        font-size: 16px;
+    }
+    body {
+        margin: 0;
     }
 
     /* クラス,IDの設定 */
@@ -90,6 +79,52 @@
       width: 30px;
       height: 22px;
       vertical-align: middle;
+    }
+
+    /* メインコンテンツエリアのCSS */
+    // スクロール表示⇒コンテンツとルーム一覧
+    .scroll_area {
+        margin: 0;
+        padding: 0;
+        overflow-y: scroll;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #fff;
+        width: calc(100% + 17px);
+        padding-right: 17px;
+        height: auto;
+    }
+
+    .room_area, .content_area {
+        overflow-x: hidden;
+        overflow-y: hidden;
+        border: 1px solid #ccc;
+    }
+
+    // ルーム一覧ページのCSS
+    // ルーム1レコード毎の表示
+    .room_record {
+        border-bottom: 0.5px solid #ccc;
+        margin-bottom: 0px;
+        padding-bottom: 5px;
+        padding-left: 10px;
+    }
+    // ルーム名表示領域
+    .room_name {
+        margin-top: 5px;
+        font-weight: bold;
+        margin-bottom: 0px;
+    }
+    // 説明分のサイズ指定
+    .room_description {
+        font-size: 14px;
+        color: #2F3437;
+        margin-bottom: 0px;
+    }
+
+    // メインエリアサイズ-可変
+    .maincontents_flex {
+
     }
 
     .unshown{
@@ -158,10 +193,4 @@
       -webkit-transform: translateX(0%);
       transform: translateX(0%);
       box-shadow: 6px 0 25px rgba(0,0,0,.15);
-    }
-
-    // googleMap表示
-    #googleMap {
-        width: 700px;
-        height: 400px;
     }
