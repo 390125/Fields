@@ -1,8 +1,3 @@
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#room_{{$room_id}}">
-  {{$button_name}}
-</button>
-
-
 <!-- Modal -->
 <div class="modal fade" id="room_{{$room_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">

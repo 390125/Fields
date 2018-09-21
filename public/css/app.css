@@ -10419,23 +10419,6 @@ a.text-dark:focus {
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
-.content_area {
-  background-color: #fff;
-  overflow-y: scroll;
-  width: 600px;
-  height: 5000px;
-  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-#room {
-  overflow-y: scroll;
-  width: 600px;
-  height: 500px;
-}
-
 /* ここからFor Fields */
 
 /* 基本パーツ設定 */
@@ -10459,6 +10442,12 @@ html,
 body {
   background-color: #999999;
   font-family: 游ゴシック体, 'Yu Gothic', YuGothic, '\30D2\30E9\30AE\30CE\89D2\30B4\30B7\30C3\30AF   Pro', 'Hiragino Kaku Gothic Pro', メイリオ, Meiryo, Osaka, '\FF2D\FF33   \FF30\30B4\30B7\30C3\30AF', 'MS PGothic', sans-serif;
+  height: 100%;
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
 }
 
 /* クラス,IDの設定 */
@@ -10495,6 +10484,46 @@ body {
   width: 30px;
   height: 22px;
   vertical-align: middle;
+}
+
+/* メインコンテンツエリアのCSS */
+
+.scroll_area {
+  margin: 0;
+  padding: 0;
+  overflow-y: scroll;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  width: calc(100% + 17px);
+  padding-right: 17px;
+  height: auto;
+}
+
+.room_area,
+.content_area {
+  overflow-x: hidden;
+  overflow-y: hidden;
+  border: 1px solid #ccc;
+}
+
+.room_record {
+  border-bottom: 0.5px solid #ccc;
+  margin-bottom: 0px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+}
+
+.room_name {
+  margin-top: 5px;
+  font-weight: bold;
+  margin-bottom: 0px;
+}
+
+.room_description {
+  font-size: 14px;
+  color: #2F3437;
+  margin-bottom: 0px;
 }
 
 .unshown {
@@ -10573,10 +10602,5 @@ body {
   transform: translateX(0%);
   -webkit-box-shadow: 6px 0 25px rgba(0, 0, 0, 0.15);
           box-shadow: 6px 0 25px rgba(0, 0, 0, 0.15);
-}
-
-#googleMap {
-  width: 700px;
-  height: 400px;
 }
 
